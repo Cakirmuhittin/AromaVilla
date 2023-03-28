@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace Infastructure.Data.Config
 {
-    public class BrandConfiguration : IEntityTypeConfiguration<Brand>
+    public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Brand> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.Property(x => x.Name)
                     .HasMaxLength(100);
+            builder.Property(x => x.Price)
+                .HasPrecision(18,2);
         }
     }
 }
