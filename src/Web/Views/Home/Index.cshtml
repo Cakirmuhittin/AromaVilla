@@ -1,13 +1,21 @@
 ﻿@inject IRepository<Product> ProductRepo
+@model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
+<select asp-items="Model.Categories">
+    <option value="value">Choose</option>
+</select>
+<select asp-items="Model.Brands">
+    <option value="value">Choose</option>
+</select>
+@foreach(var item in Model.Products)
+{
+    <div>
+        @item.Name
+    </div>
+}
 <ul>
     @foreach(var item in await ProductRepo.GetAllAsync())
     {
