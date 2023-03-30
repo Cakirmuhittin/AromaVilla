@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infastructure.Data
 {
-    public class ShopContextSeed
+    public static class ShopContextSeed
     {
         public static async Task SeedAsync(ShopContext db)
         {

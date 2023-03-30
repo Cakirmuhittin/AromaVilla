@@ -1,4 +1,6 @@
 global using Infastructure.Identity;
+global using ApplicationCore.Interfaces;
+global using ApplicationCore.Entities;
 using Infastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +13,7 @@ var connectionString = builder.Configuration.GetConnectionString("AppIdentityDbC
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppIdentityDbContext>();
@@ -33,6 +35,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseRequestLocalization("en-US");
 
 app.UseRouting();
 
@@ -47,6 +50,10 @@ app.MapRazorPages();
 using(var scope = app.Services.CreateScope())
 {
     var shopContext = scope.ServiceProvider.GetRequiredService<ShopContext>();
+    var identityContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     await ShopContextSeed.SeedAsync(shopContext);
+    await AppIdentityDbContextSeed.SeedAsync(identityContext,roleManager, userManager);
 }
 app.Run();
