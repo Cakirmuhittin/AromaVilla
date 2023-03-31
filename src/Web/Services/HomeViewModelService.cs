@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using ApplicationCore.Specifications;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Web.Interfaces;
 
 namespace Web.Services
@@ -17,7 +18,10 @@ namespace Web.Services
         }
         public async Task<HomeViewModel> GetHomeViewModelAsync(int? categoryId, int? brandId, int pageId = 1)
         {
-            var products = await _productRepo.GetAllAsync();
+            var specProducts = new ProductsFilterSpecification(categoryId, brandId);
+            var SpecProductsPeginated=new ProductsFilterSpecification(categoryId, brandId,(pageId-1)*Constants.ITEMS_PER_PAGE, Constants.ITEMS_PER_PAGE);
+            var totalItems = await _productRepo.CountAsync(specProducts);
+            var products = await _productRepo.GetAllAsync(SpecProductsPeginated);
             var vm = new HomeViewModel()
             {
                 Products = products.Select(x => new ProductViewModel()
@@ -30,7 +34,13 @@ namespace Web.Services
                 Categories = await GetCategoriesAsync(),
                 Brands= await GetBrandsAsync(),
                 CategoryId=categoryId,
-                BrandId=brandId
+                BrandId=brandId,
+                PaginationInfo=new PaginationInfoViewModel()
+                {
+                    PageId=pageId,
+                    ItemsOnPage=products.Count,
+                    TotalItems=totalItems
+                }
             };
             return vm;
         }
