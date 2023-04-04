@@ -31,7 +31,7 @@
                 <div>
                     @item.Price.ToString("c2")
                 </div>
-                <button class="btn btn-sm btn-outline-dark">
+                <button class="btn btn-sm btn-outline-dark" data-add-to-basket="@item.Id">
                     <i class="fa-solid fa-cart-plus"></i>
                 </button>
             </div>
@@ -62,11 +62,22 @@
                     </a>
                 </li>
             }            
-            @for (int i = 1; i <= pi.TotalPages; i++)
+            @foreach (var i in pi.PageNumbers)
             {
+                if(i>0)
+                {                    
                 <li class="page-item @(i==pi.PageId ? "active":"")">
                     <a class="page-link" asp-route-categoryId="@Model.CategoryId" asp-route-brandId="@Model.BrandId" asp-route-pageId="@i">@i</a>
-                </li>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link">
+                            <span aria-hidden="true">&hellip;</span>
+                        </a>
+                    </li>
+                }
             }
 
             @if (pi.HasNext)
@@ -98,3 +109,15 @@
         <li>@item.Name @item.Price.ToString("c2")</li>
     }
 </ul>*@
+
+@section Scripts{
+    <script>
+        $("[data-add-to-basket]").click(function () {
+            let productId = $(this).data("add-to-basket");
+            let url = "@Url.Action("AddToBasket","Basket")";
+            $.post(url,{productId},function(data){
+                $("[data-total-items]").text(data.totalItems);
+            });
+        });
+    </script>
+}

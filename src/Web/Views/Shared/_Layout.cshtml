@@ -31,6 +31,15 @@
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
+                    @{ /*todo:burayı veiwcomponent yap, sepetteki toplam öge sayısını göster*/ }
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a asp-area="" asp-action="Index" asp-controller="Basket" class="nav-link text-dark">
+                                Basket
+                                <span data-total-items class="badge bg-success">0</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>

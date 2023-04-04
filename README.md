@@ -29,4 +29,7 @@ Update-Database -context ShopContext
 
 Add-Migration InitialIdentity -context AppIdentityDbContext -OutputDir Identity/Migrations
 Update-Database -context AppIdentityDbContext
+
+Add-Migration BasketAdded -Context ShopContext -OutputDir Data/Migrations
+Update-Database -Context ShopContext
 ```
