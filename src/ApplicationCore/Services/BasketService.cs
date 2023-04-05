@@ -116,9 +116,9 @@ namespace ApplicationCore.Services
                 {
                     targetItem.Quantity += item.Quantity;
                 }
+            }
                 await _basketRepository.UpdateAsync(destinationBasket);
                 await _basketRepository.DeleteAsync(sourceBasket);
-            }
         }
 
     }
