@@ -27,3 +27,6 @@ body {
     font-weight:500;
     font-size:1.1rem;
 }
+.number-input > .quantity {
+    width: 70px;
+}

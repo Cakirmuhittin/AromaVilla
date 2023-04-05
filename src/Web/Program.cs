@@ -17,10 +17,15 @@ var connectionString = builder.Configuration.GetConnectionString("AppIdentityDbC
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+
 builder.Services.AddScoped<IHomeViewModelService,HomeViewModelService>();
+
 builder.Services.AddScoped<IBasketViewModelService, BasketViewModelService>();
+
 builder.Services.AddScoped<IBasketService, BasketService>();
+
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppIdentityDbContext>();
@@ -49,7 +54,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseTransferBasket();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
