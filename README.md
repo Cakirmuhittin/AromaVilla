@@ -18,6 +18,10 @@ Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -v 6.0.15
 Install-Package Microsoft.EntityFrameworkCore.Design -v 6.0.15
 Install-Package Ardalis.Specification.EntityFrameworkCore -v 6.1.0
 ```
+
+###UnitTest
+Install-Package Moq
+
 ## Migrations
 Before running the following commands, make sure that Web is set as startup project.
 Run the following commands on the project "Infrastructure"

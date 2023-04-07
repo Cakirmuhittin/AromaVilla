@@ -26,6 +26,8 @@ builder.Services.AddScoped<IBasketViewModelService, BasketViewModelService>();
 
 builder.Services.AddScoped<IBasketService, BasketService>();
 
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppIdentityDbContext>();
